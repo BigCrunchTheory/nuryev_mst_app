@@ -108,6 +108,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 600;
+    
     return Scaffold(
       body: PageView(
         controller: _pageController,
@@ -117,10 +119,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           });
         },
         children: [
-          OnboardingPage1(pageController: _pageController),
+          OnboardingPage1(pageController: _pageController, isMobile: isMobile),
           OnboardingPage2(
             pageController: _pageController,
             onContinue: _goToPaywall,
+            isMobile: isMobile,
           ),
         ],
       ),
@@ -130,8 +133,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
 class OnboardingPage1 extends StatelessWidget {
   final PageController pageController;
+  final bool isMobile;
 
-  const OnboardingPage1({super.key, required this.pageController});
+  const OnboardingPage1({
+    super.key,
+    required this.pageController,
+    required this.isMobile,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -150,31 +158,33 @@ class OnboardingPage1 extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const SizedBox(height: 20),
+            SizedBox(height: isMobile ? 20 : 40),
             Column(
               children: [
                 Icon(
                   Icons.rocket_launch,
-                  size: 100,
+                  size: isMobile ? 100 : 150,
                   color: Colors.white,
                 ),
-                const SizedBox(height: 30),
-                const Text(
+                SizedBox(height: isMobile ? 30 : 50),
+                Text(
                   'Welcome to Nuryev',
                   style: TextStyle(
-                    fontSize: 32,
+                    fontSize: isMobile ? 32 : 48,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 20),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24),
+                SizedBox(height: isMobile ? 20 : 30),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isMobile ? 24 : 80,
+                  ),
                   child: Text(
                     'Discover amazing features and unlock your potential with our premium experience.',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: isMobile ? 16 : 20,
                       color: Colors.white70,
                     ),
                     textAlign: TextAlign.center,
@@ -183,7 +193,7 @@ class OnboardingPage1 extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 40),
+              padding: EdgeInsets.only(bottom: isMobile ? 40 : 60),
               child: ElevatedButton(
                 onPressed: () {
                   pageController.nextPage(
@@ -194,14 +204,17 @@ class OnboardingPage1 extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   foregroundColor: Colors.deepPurple,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 40,
-                    vertical: 16,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isMobile ? 40 : 60,
+                    vertical: isMobile ? 16 : 20,
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   'Continue',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: isMobile ? 16 : 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -215,11 +228,13 @@ class OnboardingPage1 extends StatelessWidget {
 class OnboardingPage2 extends StatelessWidget {
   final PageController pageController;
   final VoidCallback onContinue;
+  final bool isMobile;
 
   const OnboardingPage2({
     super.key,
     required this.pageController,
     required this.onContinue,
+    required this.isMobile,
   });
 
   @override
@@ -250,10 +265,10 @@ class OnboardingPage2 extends StatelessWidget {
                       curve: Curves.easeInOut,
                     );
                   },
-                  child: const Icon(
+                  child: Icon(
                     Icons.arrow_back,
                     color: Colors.white,
-                    size: 28,
+                    size: isMobile ? 28 : 36,
                   ),
                 ),
               ),
@@ -262,26 +277,28 @@ class OnboardingPage2 extends StatelessWidget {
               children: [
                 Icon(
                   Icons.star,
-                  size: 100,
+                  size: isMobile ? 100 : 150,
                   color: Colors.yellow.shade300,
                 ),
-                const SizedBox(height: 30),
-                const Text(
+                SizedBox(height: isMobile ? 30 : 50),
+                Text(
                   'Unlock Premium Features',
                   style: TextStyle(
-                    fontSize: 32,
+                    fontSize: isMobile ? 32 : 48,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 20),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24),
+                SizedBox(height: isMobile ? 20 : 30),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isMobile ? 24 : 80,
+                  ),
                   child: Text(
                     'Choose a subscription plan that fits your needs and enjoy unlimited access.',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: isMobile ? 16 : 20,
                       color: Colors.white70,
                     ),
                     textAlign: TextAlign.center,
@@ -290,20 +307,23 @@ class OnboardingPage2 extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 40),
+              padding: EdgeInsets.only(bottom: isMobile ? 40 : 60),
               child: ElevatedButton(
                 onPressed: onContinue,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   foregroundColor: Colors.blue,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 40,
-                    vertical: 16,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isMobile ? 40 : 60,
+                    vertical: isMobile ? 16 : 20,
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   'Continue',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: isMobile ? 16 : 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -354,6 +374,9 @@ class _PaywallScreenState extends State<PaywallScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 600;
+    final screenWidth = MediaQuery.of(context).size.width;
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text('Choose Your Plan'),
@@ -362,89 +385,149 @@ class _PaywallScreenState extends State<PaywallScreen> {
       ),
       body: Column(
         children: [
-          const SizedBox(height: 20),
+          SizedBox(height: isMobile ? 20 : 40),
           Expanded(
             child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    const Text(
-                      'Select a Subscription Plan',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 32),
-                    _SubscriptionCard(
-                      title: 'Monthly',
-                      price: '\$4.99',
-                      billingPeriod: '/month',
-                      features: [
-                        'Unlimited access',
-                        'Ad-free experience',
-                        'Priority support',
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: isMobile ? double.infinity : 800,
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(isMobile ? 16 : 32),
+                    child: Column(
+                      children: [
+                        Text(
+                          'Select a Subscription Plan',
+                          style: TextStyle(
+                            fontSize: isMobile ? 24 : 36,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: isMobile ? 32 : 48),
+                        if (!isMobile)
+                          Row(
+                            children: [
+                              Expanded(
+                                child: _SubscriptionCard(
+                                  title: 'Monthly',
+                                  price: '\$4.99',
+                                  billingPeriod: '/month',
+                                  features: [
+                                    'Unlimited access',
+                                    'Ad-free experience',
+                                    'Priority support',
+                                  ],
+                                  isSelected: _selectedPlan == 'month',
+                                  onTap: () {
+                                    setState(() {
+                                      _selectedPlan = 'month';
+                                    });
+                                  },
+                                  discount: null,
+                                ),
+                              ),
+                              const SizedBox(width: 24),
+                              Expanded(
+                                child: _SubscriptionCard(
+                                  title: 'Yearly',
+                                  price: '\$39.99',
+                                  billingPeriod: '/year',
+                                  features: [
+                                    'Everything in Monthly',
+                                    'Save 33% compared to monthly',
+                                    'Best value',
+                                  ],
+                                  isSelected: _selectedPlan == 'year',
+                                  onTap: () {
+                                    setState(() {
+                                      _selectedPlan = 'year';
+                                    });
+                                  },
+                                  discount: '33% OFF',
+                                ),
+                              ),
+                            ],
+                          )
+                        else
+                          Column(
+                            children: [
+                              _SubscriptionCard(
+                                title: 'Monthly',
+                                price: '\$4.99',
+                                billingPeriod: '/month',
+                                features: [
+                                  'Unlimited access',
+                                  'Ad-free experience',
+                                  'Priority support',
+                                ],
+                                isSelected: _selectedPlan == 'month',
+                                onTap: () {
+                                  setState(() {
+                                    _selectedPlan = 'month';
+                                  });
+                                },
+                                discount: null,
+                              ),
+                              const SizedBox(height: 16),
+                              _SubscriptionCard(
+                                title: 'Yearly',
+                                price: '\$39.99',
+                                billingPeriod: '/year',
+                                features: [
+                                  'Everything in Monthly',
+                                  'Save 33% compared to monthly',
+                                  'Best value',
+                                ],
+                                isSelected: _selectedPlan == 'year',
+                                onTap: () {
+                                  setState(() {
+                                    _selectedPlan = 'year';
+                                  });
+                                },
+                                discount: '33% OFF',
+                              ),
+                            ],
+                          ),
                       ],
-                      isSelected: _selectedPlan == 'month',
-                      onTap: () {
-                        setState(() {
-                          _selectedPlan = 'month';
-                        });
-                      },
-                      discount: null,
                     ),
-                    const SizedBox(height: 16),
-                    _SubscriptionCard(
-                      title: 'Yearly',
-                      price: '\$39.99',
-                      billingPeriod: '/year',
-                      features: [
-                        'Everything in Monthly',
-                        'Save 33% compared to monthly',
-                        'Best value',
-                      ],
-                      isSelected: _selectedPlan == 'year',
-                      onTap: () {
-                        setState(() {
-                          _selectedPlan = 'year';
-                        });
-                      },
-                      discount: '33% OFF',
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _isLoading ? null : _purchaseSubscription,
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+            Padding(
+            padding: EdgeInsets.all(isMobile ? 16 : 32),
+            child: Center(
+              child: SizedBox(
+                width: isMobile ? double.infinity : 400,
+                child: ElevatedButton(
+                  onPressed: _isLoading ? null : _purchaseSubscription,
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(
+                      vertical: isMobile ? 16 : 20,
+                    ),
+                  ),
+                  child: _isLoading
+                      ? const SizedBox(
+                          height: 24,
+                          width: 24,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2.5,
+                          ),
+                        )
+                      : Text(
+                          'Continue',
+                          style: TextStyle(
+                            fontSize: isMobile ? 18 : 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                 ),
-                child: _isLoading
-                    ? const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                        ),
-                      )
-                    : const Text(
-                        'Continue',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: isMobile ? 16 : 32),
         ],
       ),
     );
@@ -595,6 +678,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   late String _subscriptionPlan;
   late DateTime _subscriptionDate;
+  late DateTime _endDate;
 
   @override
   void initState() {
@@ -604,11 +688,22 @@ class _MainScreenState extends State<MainScreen> {
 
   Future<void> _loadSubscriptionInfo() async {
     final prefs = await SharedPreferences.getInstance();
+    final plan = prefs.getString('subscription_plan') ?? 'month';
+    final timestamp = prefs.getInt('subscription_date') ?? 0;
+    final startDate = DateTime.fromMillisecondsSinceEpoch(timestamp);
+    
+    // Calculate end date based on plan
+    late DateTime endDate;
+    if (plan == 'month') {
+      endDate = DateTime(startDate.year, startDate.month + 1, startDate.day);
+    } else {
+      endDate = DateTime(startDate.year + 1, startDate.month, startDate.day);
+    }
+    
     setState(() {
-      _subscriptionPlan = prefs.getString('subscription_plan') ?? 'month';
-      _subscriptionDate = DateTime.fromMillisecondsSinceEpoch(
-        prefs.getInt('subscription_date') ?? 0,
-      );
+      _subscriptionPlan = plan;
+      _subscriptionDate = startDate;
+      _endDate = endDate;
     });
   }
 
@@ -622,6 +717,8 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 600;
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
@@ -639,141 +736,189 @@ class _MainScreenState extends State<MainScreen> {
         ],
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Welcome Card
-              Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.deepPurple.shade400,
-                      Colors.deepPurple.shade700,
-                    ],
+        child: Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: isMobile ? double.infinity : 900,
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(isMobile ? 16 : 32),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Welcome Card
+                  Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.deepPurple.shade400,
+                          Colors.deepPurple.shade700,
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    padding: EdgeInsets.all(isMobile ? 20 : 32),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Welcome Back!',
+                          style: TextStyle(
+                            fontSize: isMobile ? 28 : 40,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(height: isMobile ? 8 : 12),
+                        Text(
+                          'You have a $_subscriptionPlan subscription',
+                          style: TextStyle(
+                            fontSize: isMobile ? 16 : 20,
+                            color: Colors.white70,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Welcome Back!',
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                  SizedBox(height: isMobile ? 24 : 40),
+                  // Subscription Info
+                  Text(
+                    'Subscription Details',
+                    style: TextStyle(
+                      fontSize: isMobile ? 20 : 28,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: isMobile ? 12 : 20),
+                  Card(
+                    elevation: 2,
+                    child: Padding(
+                      padding: EdgeInsets.all(isMobile ? 16 : 24),
+                      child: Column(
+                        children: [
+                          _buildInfoRow(
+                            'Plan',
+                            _subscriptionPlan.toUpperCase(),
+                            isMobile: isMobile,
+                          ),
+                          const Divider(),
+                          _buildInfoRow(
+                            'Expires On',
+                            '${_endDate.day}/${_endDate.month}/${_endDate.year}',
+                            isMobile: isMobile,
+                          ),
+                          const Divider(),
+                          _buildInfoRow(
+                            'Status',
+                            'Active',
+                            valueColor: Colors.green,
+                            isMobile: isMobile,
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'You have a $_subscriptionPlan subscription',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.white70,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 24),
-              // Subscription Info
-              const Text(
-                'Subscription Details',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 12),
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      _buildInfoRow(
-                        'Plan',
-                        _subscriptionPlan.toUpperCase(),
-                      ),
-                      const Divider(),
-                      _buildInfoRow(
-                        'Subscribed Since',
-                        '${_subscriptionDate.day}/${_subscriptionDate.month}/${_subscriptionDate.year}',
-                      ),
-                      const Divider(),
-                      _buildInfoRow(
-                        'Status',
-                        'Active',
-                        valueColor: Colors.green,
-                      ),
-                    ],
                   ),
-                ),
+                  SizedBox(height: isMobile ? 24 : 40),
+                  // Features List
+                  Text(
+                    'Your Benefits',
+                    style: TextStyle(
+                      fontSize: isMobile ? 20 : 28,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: isMobile ? 12 : 20),
+                  if (!isMobile)
+                    GridView.count(
+                      crossAxisCount: 2,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      crossAxisSpacing: 16,
+                      mainAxisSpacing: 16,
+                      childAspectRatio: 5,
+                      children: [
+                        _buildFeatureItem('Unlimited access to all content',
+                            isMobile: false),
+                        _buildFeatureItem('Ad-free experience',
+                            isMobile: false),
+                        _buildFeatureItem('Priority customer support',
+                            isMobile: false),
+                        _buildFeatureItem('Early access to new features',
+                            isMobile: false),
+                        _buildFeatureItem('Offline mode support',
+                            isMobile: false),
+                      ],
+                    )
+                  else
+                    Column(
+                      children: [
+                        _buildFeatureItem('Unlimited access to all content',
+                            isMobile: true),
+                        _buildFeatureItem('Ad-free experience', isMobile: true),
+                        _buildFeatureItem('Priority customer support',
+                            isMobile: true),
+                        _buildFeatureItem('Early access to new features',
+                            isMobile: true),
+                        _buildFeatureItem('Offline mode support',
+                            isMobile: true),
+                      ],
+                    ),
+                  SizedBox(height: isMobile ? 24 : 40),
+                ],
               ),
-              const SizedBox(height: 24),
-              // Features List
-              const Text(
-                'Your Benefits',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 12),
-              _buildFeatureItem('Unlimited access to all content'),
-              _buildFeatureItem('Ad-free experience'),
-              _buildFeatureItem('Priority customer support'),
-              _buildFeatureItem('Early access to new features'),
-              _buildFeatureItem('Offline mode support'),
-              const SizedBox(height: 24),
-            ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildInfoRow(String label, String value, {Color? valueColor}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 14,
-            color: Colors.grey,
+  Widget _buildInfoRow(String label, String value,
+      {Color? valueColor, required bool isMobile}) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: isMobile ? 8 : 12),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: isMobile ? 14 : 16,
+              color: Colors.grey,
+            ),
           ),
-        ),
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-            color: valueColor ?? Colors.black,
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: isMobile ? 14 : 16,
+              fontWeight: FontWeight.bold,
+              color: valueColor ?? Colors.black,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
-  Widget _buildFeatureItem(String feature) {
+  Widget _buildFeatureItem(String feature, {required bool isMobile}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: EdgeInsets.symmetric(vertical: isMobile ? 8 : 12),
       child: Row(
         children: [
           Icon(
             Icons.check_circle,
             color: Colors.green.shade600,
-            size: 24,
+            size: isMobile ? 24 : 28,
           ),
-          const SizedBox(width: 12),
-          Text(
-            feature,
-            style: const TextStyle(
-              fontSize: 16,
-              color: Colors.black87,
+          SizedBox(width: isMobile ? 12 : 16),
+          Expanded(
+            child: Text(
+              feature,
+              style: TextStyle(
+                fontSize: isMobile ? 16 : 18,
+                color: Colors.black87,
+              ),
             ),
           ),
         ],
