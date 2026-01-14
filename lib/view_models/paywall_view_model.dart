@@ -12,7 +12,7 @@ class PaywallViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> purchase(Function onSuccess) async {
+  Future<void> purchase(Function(String) onSuccess) async {
     _isLoading = true;
     notifyListeners();
 
@@ -22,6 +22,7 @@ class PaywallViewModel extends ChangeNotifier {
     _isLoading = false;
     notifyListeners();
 
-    onSuccess(_selectedPlan);
+    // Call success callback with selected plan
+    await onSuccess(_selectedPlan);
   }
 }

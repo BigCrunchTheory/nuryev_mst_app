@@ -134,13 +134,10 @@ class PaywallScreen extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: paywallVM.isLoading
                             ? null
-                            : () {
-                                paywallVM.purchase(() async {
+                            : () async {
+                                await paywallVM.purchase((selectedPlan) async {
                                   // Set subscription in AppViewModel
-                                  await appVM.setSubscription(paywallVM.selectedPlan);
-                                  
-                                  // Wait for state to update
-                                  await Future.delayed(const Duration(milliseconds: 500));
+                                  await appVM.setSubscription(selectedPlan);
                                   
                                   // Close PaywallScreen - AppRouter will auto-rebuild
                                   if (context.mounted) {
